@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/lab-coop/vuelo-backend/issues"
   },
-  "homepage": "https://github.com/lab-coop/vuelo-backend#readme"
+  "homepage": "https://github.com/lab-coop/vuelo-backend#readme",
+  "dependencies": {
+    "koa": "^2.4.1",
+    "koa-router": "^7.3.0"
+  }
 }
