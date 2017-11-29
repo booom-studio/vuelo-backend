@@ -4,7 +4,9 @@
   "description": "Vuelo backend",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/server.js",
+    "linter": "eslint *.js",
+    "test": "npm run linter"
   },
   "repository": {
     "type": "git",
@@ -17,7 +19,14 @@
   },
   "homepage": "https://github.com/lab-coop/vuelo-backend#readme",
   "dependencies": {
+    "apollo-server-koa": "^1.2.0",
+    "graphql": "^0.11.7",
+    "graphql-tools": "^2.10.0",
     "koa": "^2.4.1",
+    "koa-bodyparser": "^4.2.0",
     "koa-router": "^7.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.12.0"
   }
 }
