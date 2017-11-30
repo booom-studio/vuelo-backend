@@ -7,7 +7,7 @@ const { graphqlKoa, graphiqlKoa } = require('apollo-server-koa');
 const schema = require('./schema');
 const mongoConnector = require('./mongo-connector');
 
-const PORT = 3000;
+const PORT = 3001;
 
 const start = async () => {
   const app = new Koa();
