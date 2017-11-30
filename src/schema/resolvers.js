@@ -1,15 +1,20 @@
-const users = require('./mock-users');
+const { first } = require('lodash');
 
 module.exports = {
   Query: {
-    allUsers: () => users
+    allUsers: async (root, data, { mongo: { Users } }) => {
+      return await Users.find().toArray();
+    }
   },
   Mutation: {
-    createUser: (_, data) => {
-      const user = Object.assign({}, data, { id: users.length + 1 });
-      users.push(user);
+    createUser: async (root, data, { mongo: { Users } }) => {
+      const { insertedIds } = await Users.insert(data);
 
+      const user = Object.assign({ id: first(insertedIds) }, data);
       return user;
     }
+  },
+  User: {
+    id: ({ _id, id }) => _id || id
   }
 };

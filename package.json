@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node src/server.js",
     "linter": "eslint *.js",
-    "test": "npm run linter"
+    "test": "npm run linter",
+    "mongodb": "mkdir -p mongo/dev; mongod --dbpath=./mongo/dev"
   },
   "repository": {
     "type": "git",
@@ -21,11 +22,14 @@
   "dependencies": {
     "@koa/cors": "^2.2.1",
     "apollo-server-koa": "^1.2.0",
+    "config": "^1.28.1",
     "graphql": "^0.11.7",
     "graphql-tools": "^2.10.0",
     "koa": "^2.4.1",
     "koa-bodyparser": "^4.2.0",
-    "koa-router": "^7.3.0"
+    "koa-router": "^7.3.0",
+    "lodash": "^4.17.4",
+    "mongodb": "^2.2.33"
   },
   "devDependencies": {
     "eslint": "^4.12.1"
