@@ -1,0 +1,17 @@
+enum Role {
+  ADMIN
+  CLIENT
+}
+
+type User {
+  id: ID!
+  name: String!
+}
+
+type Query {
+  allUsers: [User!]!
+}
+
+type Mutation {
+  createUser(name: String!): User
+}
