@@ -1,4 +1,8 @@
-const { first } = require('lodash');
+const { first, pick } = require('lodash');
+const auth = require('./auth')();
+const googleAuth = require('./google-auth')();
+
+const getToken = ({ email }) => auth.getToken({ email });
 
 module.exports = {
   Query: {
@@ -7,11 +11,27 @@ module.exports = {
     }
   },
   Mutation: {
-    createUser: async (root, data, { mongo: { Users } }) => {
-      const { insertedIds } = await Users.insert(data);
+    signInGoogle: async (root, { token }, { mongo: { Users }}) => {
+      const user = await googleAuth.verify(token);
 
-      const user = Object.assign({ id: first(insertedIds) }, data);
-      return user;
+      const existingUser = await Users.findOne({ email: user.email });
+      if(existingUser) {
+        console.log('User already exists');
+
+        return {
+          token: getToken(existingUser),
+          user: existingUser
+        };
+      }
+
+      const newUser = pick(user, 'email', 'name', 'picture');
+
+      const { insertedIds } = await Users.insert(newUser);
+      
+      return {
+        user: Object.assign({ id: first(insertedIds) }, newUser),
+        token: getToken(newUser)
+      };
     }
   },
   User: {

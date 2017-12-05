@@ -5,6 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node src/server.js",
+    "watch": "nodemon src/server.js --exec node",
     "linter": "eslint *.js",
     "test": "npm run linter",
     "mongodb": "mkdir -p mongo/dev; mongod --dbpath=./mongo/dev"
@@ -23,8 +24,10 @@
     "@koa/cors": "^2.2.1",
     "apollo-server-koa": "^1.2.0",
     "config": "^1.28.1",
+    "google-auth-library": "^0.12.0",
     "graphql": "^0.11.7",
     "graphql-tools": "^2.10.0",
+    "jsonwebtoken": "^8.1.0",
     "koa": "^2.4.1",
     "koa-bodyparser": "^4.2.0",
     "koa-router": "^7.3.0",
@@ -32,6 +35,7 @@
     "mongodb": "^2.2.33"
   },
   "devDependencies": {
-    "eslint": "^4.12.1"
+    "eslint": "^4.12.1",
+    "nodemon": "^1.12.1"
   }
 }

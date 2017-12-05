@@ -6,6 +6,8 @@ enum Role {
 type User {
   id: ID!
   name: String!
+  email: String!
+  picture: String
 }
 
 type Query {
@@ -13,5 +15,10 @@ type Query {
 }
 
 type Mutation {
-  createUser(name: String!): User
+  signInGoogle(token: String!): SigninPayload!
+}
+
+type SigninPayload {
+  token: String
+  user: User
 }
