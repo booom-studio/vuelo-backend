@@ -8,6 +8,7 @@ type User {
   name: String!
   email: String!
   picture: String
+  role: Role!
 }
 
 type Query {
@@ -15,6 +16,7 @@ type Query {
 }
 
 type Mutation {
+  refreshToken(oldToken: String!): SigninPayload!
   signInGoogle(token: String!): SigninPayload!
 }
 

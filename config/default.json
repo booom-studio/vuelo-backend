@@ -3,5 +3,8 @@
   "google": {
     "clientId": "645715169329-kgminegvl9qd88g1e2b36a5j1phkqsf6.apps.googleusercontent.com"
   },
-  "jwtSecret": "supersecret"
+  "jwt": {
+    "secret": "supersecret",
+    "expiresIn": "30m"
+  }
 }

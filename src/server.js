@@ -4,10 +4,12 @@ const KoaRouter = require('koa-router');
 const bodyParser = require('koa-bodyparser');
 const { graphqlKoa, graphiqlKoa } = require('apollo-server-koa');
 
-const schema = require('./schema');
+const schema = require('./graphql');
 const mongoConnector = require('./mongo-connector');
 
 const PORT = 3001;
+
+const getBearerToken = token => token ? token.replace(/^Bearer\s*/, '') : null;
 
 const start = async () => {
   const app = new Koa();
@@ -15,15 +17,17 @@ const start = async () => {
   
   const mongo = await mongoConnector();
   
-  router.post('/graphql', graphqlKoa({
-    schema,
-    context: { mongo }
+  router.post('/graphql', graphqlKoa(({ request: { header: { authorization } } }) => {
+    return {
+      schema,
+      context: { mongo, authorization: getBearerToken(authorization) }
+    };
   }));
   router.get('/graphiql', graphiqlKoa({ endpointURL: '/graphql' }));
   
   app.use(bodyParser({
     extendTypes: {
-      json: ['text/plain']
+      // json: ['text/plain']
     }
   }));
   app.use(cors());

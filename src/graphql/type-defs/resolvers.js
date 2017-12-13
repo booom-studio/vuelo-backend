@@ -8,10 +8,20 @@ module.exports = {
   Query: {
     allUsers: async (root, data, { mongo: { Users } }) => {
       return await Users.find().toArray();
+    },
+    supersecret: async (root, data, { authorization }) => {
+      try {
+        const verified = auth.verify(authorization);
+        console.log({ authorization, verified });
+  
+        return await 'much-secret';
+      } catch(err) {
+        return 'nope';
+      }
     }
   },
   Mutation: {
-    signInGoogle: async (root, { token }, { mongo: { Users }}) => {
+    signInGoogle: async (root, { token }, { mongo: { Users } }) => {
       const user = await googleAuth.verify(token);
 
       const existingUser = await Users.findOne({ email: user.email });

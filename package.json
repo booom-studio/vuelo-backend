@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node src/server.js",
-    "watch": "nodemon src/server.js --exec node",
+    "watch": "nodemon src/server.js -e js,json,gql",
     "linter": "eslint *.js",
     "test": "npm run linter",
     "mongodb": "mkdir -p mongo/dev; mongod --dbpath=./mongo/dev"
