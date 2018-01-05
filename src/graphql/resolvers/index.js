@@ -1,4 +1,4 @@
-const { refreshToken, signInGoogle, authMiddleware } = require('./auth');
+const { refreshToken, signIn, signInGoogle, authMiddleware } = require('./auth');
 const { allUsers, User } = require('./users');
 const { allProjects, createProject, Project } = require('./projects');
 
@@ -9,6 +9,7 @@ module.exports = {
   },
   Mutation: {
     refreshToken,
+    signIn,
     signInGoogle,
     createProject: authMiddleware({ role: 'ADMIN' }, createProject)
   },

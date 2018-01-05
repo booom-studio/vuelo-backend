@@ -23,7 +23,6 @@ module.exports = {
       user
     };
   },
-
   async signInGoogle (root, { token }, { mongo: { Users } }) {
     const user = await googleAuth.verify(token);
 
@@ -47,6 +46,19 @@ module.exports = {
     return {
       user: Object.assign({ id: first(insertedIds) }, newUser),
       token: generateToken(newUser)
+    };
+  },
+  async signIn (root, { email, password }, { mongo: { Users }}) {
+    // TODO, plain pw..
+    const user = await Users.findOne({ email, password });
+
+    if(!user) {
+      throw new Error('User not found!');
+    }
+
+    return {
+      user,
+      token: generateToken(user)
     };
   },
 
