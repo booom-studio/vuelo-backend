@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "Vuelo backend",
   "main": "server.js",
+  "engines": {
+    "node": "8.5.0"
+  },
   "scripts": {
     "start": "node src/server.js",
     "watch": "nodemon src/server.js -e js,json,gql",
