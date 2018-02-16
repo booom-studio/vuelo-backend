@@ -10,6 +10,7 @@ type User {
   password: String!
   picture: String
   role: Role!
+  timeEntries: [TimeEntry!]
 }
 
 type Query {

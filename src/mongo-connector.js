@@ -1,4 +1,3 @@
-
 const config = require('config');
 const { MongoClient } = require('mongodb');
 
@@ -8,6 +7,7 @@ module.exports = async () => {
   const db = await MongoClient.connect(dbUrl);
   return {
     Users: db.collection('users'),
-    Projects: db.collection('projects')
+    Projects: db.collection('projects'),
+    TimeEntries: db.collection('time_entries')
   };
 };

@@ -1,0 +1,15 @@
+type TimeEntry {
+  id: ID!
+  projectId: ID!
+  startTime: Int!
+  endTime: Int
+}
+
+extend type Query {
+  currentTimeEntry(userId: ID!): TimeEntry!
+  # currentTimeEntry: TimeEntry
+}
+
+extend type Mutation {
+  toggle(id: ID!): TimeEntry!
+}
