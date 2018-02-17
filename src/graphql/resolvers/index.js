@@ -4,22 +4,25 @@ const {
   signInGoogle
   // authMiddleware
 } = require('./auth');
-const { allUsers, User } = require('./users');
+const { allUsers, createUser, User } = require('./users');
 const { allProjects, createProject, Project } = require('./projects');
-const { currentTimeEntry, TimeEntry } = require('./timeEntries');
+const { currentTimeEntry, toggle, TimeEntry } = require('./timeEntries');
 
 module.exports = {
   Query: {
     allUsers,
     allProjects,
     currentTimeEntry
+
     // adminStuff: authMiddleware({ role: 'ADMIN' }, allProjects)
   },
   Mutation: {
+    createUser,
     refreshToken,
     signIn,
     signInGoogle,
-    createProject
+    createProject,
+    toggle
   },
   User,
   Project,

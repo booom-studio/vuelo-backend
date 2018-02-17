@@ -3,11 +3,11 @@ const { first, pick } = require('lodash');
 const simpleAuth = require('./simple-auth')();
 const googleAuth = require('./google-auth')();
 
-const generateToken = ({ email }) => simpleAuth.getToken({ email });
+const generateToken = ({ email, id }) => simpleAuth.getToken({ email, id });
 
 module.exports = {
   // Mutations
-  async refreshToken (root, { oldToken }, { mongo: { Users } }) {
+  async refreshToken(root, { oldToken }, { mongo: { Users } }) {
     const { email } = simpleAuth.verifyToken(oldToken);
 
     const user = await Users.findOne({ email });
@@ -17,17 +17,17 @@ module.exports = {
     }
 
     console.log('refreshToken', { user });
-    
+
     return {
       token: generateToken(user),
       user
     };
   },
-  async signInGoogle (root, { token }, { mongo: { Users } }) {
+  async signInGoogle(root, { token }, { mongo: { Users } }) {
     const user = await googleAuth.verify(token);
 
     const existingUser = await Users.findOne({ email: user.email });
-    if(existingUser) {
+    if (existingUser) {
       // TODO update user info
       console.log('User already exists');
 
@@ -48,11 +48,11 @@ module.exports = {
       token: generateToken(newUser)
     };
   },
-  async signIn (root, { email, password }, { mongo: { Users }}) {
+  async signIn(root, { email, password }, { mongo: { Users } }) {
     // TODO, plain pw..
     const user = await Users.findOne({ email, password });
 
-    if(!user) {
+    if (!user) {
       throw new Error('User not found!');
     }
 
@@ -66,11 +66,10 @@ module.exports = {
   authMiddleware(scope, resolver) {
     return async (root, data, context) => {
       try {
-        console.log({ auth: context.authorization });
         simpleAuth.verify(context.authorization);
-  
+
         return await resolver(root, data, context);
-      } catch(err) {
+      } catch (err) {
         console.log('not valid', err);
         throw new Error('Unathorized');
       }

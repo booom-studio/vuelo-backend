@@ -1,7 +1,7 @@
 type Project {
   id: ID!
   title: String!
-  color: String!
+  color: String
 }
 
 extend type Query {

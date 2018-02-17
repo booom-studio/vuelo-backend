@@ -1,15 +1,16 @@
 type TimeEntry {
   id: ID!
   projectId: ID!
-  startTime: Int!
-  endTime: Int
+  userId: ID!
+  startTime: Float!
+  endTime: Float
 }
 
 extend type Query {
-  currentTimeEntry(userId: ID!): TimeEntry!
+  currentTimeEntry: TimeEntry
   # currentTimeEntry: TimeEntry
 }
 
 extend type Mutation {
-  toggle(id: ID!): TimeEntry!
+  toggle(projectId: ID!): TimeEntry!
 }
