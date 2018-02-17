@@ -4,7 +4,7 @@ const {
   signInGoogle
   // authMiddleware
 } = require('./auth');
-const { allUsers, createUser, User } = require('./users');
+const { allUsers, createUser, setCubeId, User } = require('./users');
 const { allProjects, createProject, Project } = require('./projects');
 const { currentTimeEntry, toggle, TimeEntry } = require('./timeEntries');
 
@@ -22,6 +22,7 @@ module.exports = {
     signIn,
     signInGoogle,
     createProject,
+    setCubeId,
     toggle
   },
   User,

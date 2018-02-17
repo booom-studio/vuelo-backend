@@ -2,8 +2,6 @@ const { first, last } = require('lodash');
 
 const simpleAuth = require('./auth/simple-auth')();
 
-console.log('hallo');
-
 module.exports = {
   // Queries
   currentTimeEntry: async (
