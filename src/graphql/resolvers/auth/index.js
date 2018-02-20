@@ -1,29 +1,19 @@
 const { first, pick } = require('lodash');
 
+const { ObjectId } = require('mongodb');
+
 const simpleAuth = require('./simple-auth')();
 const googleAuth = require('./google-auth')();
 
-const generateToken = ({ email, id }) => simpleAuth.getToken({ email, id });
+const generateToken = ({ id, _id }) => simpleAuth.getToken({ id: id || _id });
 
 module.exports = {
   // Mutations
-  async refreshToken(root, { oldToken }, { mongo: { Users } }) {
-    const { email } = simpleAuth.verifyToken(oldToken);
-
-    const user = await Users.findOne({ email });
-
-    if (!user) {
-      throw new Error('User not found');
-    }
-
-    console.log('refreshToken', { user });
-
-    return {
-      token: generateToken(user),
-      user
-    };
-  },
-  async signInGoogle(root, { token }, { mongo: { Users } }) {
+  refreshToken: async (root, data, { user }) => ({
+    token: generateToken(user),
+    user
+  }),
+  async signInGoogle(root, { token }, { mongo: { Projects, Users } }) {
     const user = await googleAuth.verify(token);
 
     const existingUser = await Users.findOne({ email: user.email });
@@ -39,12 +29,18 @@ module.exports = {
 
     const newUser = pick(user, 'email', 'name', 'picture');
 
-    console.log({ user });
-
     const { insertedIds } = await Users.insert(newUser);
 
+    const id = first(insertedIds);
+
+    await Projects.insert({
+      title: 'My first Project',
+      color: '#ccff90',
+      userId: id
+    });
+
     return {
-      user: Object.assign({ id: first(insertedIds) }, newUser),
+      user: Object.assign({ id }, newUser),
       token: generateToken(newUser)
     };
   },
@@ -60,6 +56,22 @@ module.exports = {
       user,
       token: generateToken(user)
     };
+  },
+
+  userMiddleware: resolver => async (root, data, context) => {
+    const { authorization: token, mongo: { Users } } = context;
+
+    const { id } = simpleAuth.verifyToken(token);
+
+    const user = await Users.findOne({ _id: ObjectId(id) });
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    Object.assign(user, { id: user._id });
+
+    return await resolver(root, data, { ...context, user });
   },
 
   // Middleware

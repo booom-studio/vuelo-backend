@@ -10,7 +10,7 @@ type User {
   password: String!
   picture: String
   # role: Role!
-  projects: [Project!]
+  # projects: [Project!]
   cubeId: String
 }
 

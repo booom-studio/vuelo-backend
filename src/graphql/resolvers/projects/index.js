@@ -1,31 +1,30 @@
 const { first } = require('lodash');
 
-const simpleAuth = require('../auth/simple-auth')();
-
 module.exports = {
   // Queries
-  async allProjects(root, data, { mongo: { Projects } }) {
-    return await Projects.find().toArray();
+  async allProjects(root, data, { user, mongo: { Projects } }) {
+    const projects = await Projects.find({ userId: user.id }).toArray();
+
+    console.log({ projects, userId: user.id, user });
+
+    return projects;
   },
 
   // Mutations
-  async createProject(
-    root,
-    project,
-    { authorization: token, mongo: { Users, Projects } }
-  ) {
-    const { email } = simpleAuth.verifyToken(token);
-    const user = await Users.findOne({ email });
-
-    if (!user) {
-      throw new Error('User not found');
-    }
+  async createProject(root, { title, color }, { user, mongo: { Projects } }) {
+    const project = {
+      title,
+      color,
+      userId: user._id
+    };
 
     const { insertedIds } = await Projects.insert(project);
 
-    const newProject = Object.assign({ id: first(insertedIds) }, project);
+    const newProject = Object.assign({}, { id: first(insertedIds) }, project);
 
-    await Users.updateOne(user, { $push: { projects: newProject } });
+    // await Users.updateOne(user, { $push: { projects: newProject } });
+
+    // console.log({ newProject });
 
     return newProject;
   },

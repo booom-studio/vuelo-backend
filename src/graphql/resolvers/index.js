@@ -1,7 +1,8 @@
 const {
   refreshToken,
   signIn,
-  signInGoogle
+  signInGoogle,
+  userMiddleware
   // authMiddleware
 } = require('./auth');
 const { allUsers, createUser, setCubeId, User } = require('./users');
@@ -11,19 +12,18 @@ const { currentTimeEntry, toggle, TimeEntry } = require('./timeEntries');
 module.exports = {
   Query: {
     allUsers,
-    allProjects,
-    currentTimeEntry
-
+    allProjects: userMiddleware(allProjects),
+    currentTimeEntry: userMiddleware(currentTimeEntry)
     // adminStuff: authMiddleware({ role: 'ADMIN' }, allProjects)
   },
   Mutation: {
-    createUser,
-    refreshToken,
     signIn,
     signInGoogle,
-    createProject,
-    setCubeId,
-    toggle
+    createUser, // admin
+    refreshToken: userMiddleware(refreshToken),
+    createProject: userMiddleware(createProject),
+    setCubeId: userMiddleware(setCubeId),
+    toggle: userMiddleware(toggle)
   },
   User,
   Project,

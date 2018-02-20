@@ -1,22 +1,13 @@
 const { first, last } = require('lodash');
 
-const simpleAuth = require('./auth/simple-auth')();
-
 module.exports = {
   // Queries
-  currentTimeEntry: async (
-    root,
-    data,
-    { authorization: token, mongo: { Users, TimeEntries } }
-  ) => {
-    const { email } = simpleAuth.verifyToken(token);
-    const user = await Users.findOne({ email });
-    if (!user) {
-      throw new Error('User not found');
-    }
+  currentTimeEntry: async (root, data, { user, mongo: { TimeEntries } }) => {
+    // .sort({ startTime: -1 })
     const lastTimeEntry = last(
       await TimeEntries.find({ userId: user.id }).toArray()
     );
+
     if (lastTimeEntry && !lastTimeEntry.endTime) {
       return lastTimeEntry;
     }
@@ -24,19 +15,7 @@ module.exports = {
   },
 
   // Mutations
-  async toggle(
-    root,
-    { projectId, userId },
-    { authorization: token, mongo: { Users, TimeEntries } }
-  ) {
-    const { email } = simpleAuth.verifyToken(token);
-
-    const user = await Users.findOne({ email });
-
-    if (!user) {
-      throw new Error('User not found');
-    }
-
+  async toggle(root, { projectId, userId }, { mongo: { TimeEntries } }) {
     const timeEntries = await TimeEntries.find({ projectId }).toArray();
 
     const lastTimeEntry = last(timeEntries);

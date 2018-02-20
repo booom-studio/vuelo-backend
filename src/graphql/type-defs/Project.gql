@@ -1,6 +1,14 @@
+# type Color {
+#   r: Int!
+#   g: Int!
+#   b: Int!
+# }
+
 type Project {
   id: ID!
+  userId: ID!
   title: String!
+  # color: Color
   color: String
 }
 
@@ -9,5 +17,6 @@ extend type Query {
 }
 
 extend type Mutation {
+  # createProject(title: String!, r: Int, g: Int, b: Int): Project
   createProject(title: String!, color: String): Project
 }

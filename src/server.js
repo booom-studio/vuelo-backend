@@ -32,7 +32,7 @@ const start = async () => {
   router.get('/graphiql', graphiqlKoa({ endpointURL: '/graphql' }));
 
   router.get('/status/:cubeId', async (ctx, next) => {
-    const { Users, TimeEntries } = mongo;
+    const { Users, Projects, TimeEntries } = mongo;
     const { params: { cubeId } } = ctx;
 
     const user = await Users.findOne({ cubeId });
@@ -46,7 +46,12 @@ const start = async () => {
     );
 
     if (lastTimeEntry) {
-      ctx.body = JSON.stringify(lastTimeEntry, null, 2);
+      const project = await Projects.findOne({ _id: lastTimeEntry.projectId });
+      ctx.body = JSON.stringify(
+        { ...lastTimeEntry, color: project.color },
+        null,
+        2
+      );
       return;
     }
 
