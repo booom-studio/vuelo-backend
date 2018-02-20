@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const { first } = require('lodash');
 
 module.exports = {
@@ -19,14 +20,27 @@ module.exports = {
     };
 
     const { insertedIds } = await Projects.insert(project);
-
     const newProject = Object.assign({}, { id: first(insertedIds) }, project);
 
-    // await Users.updateOne(user, { $push: { projects: newProject } });
-
-    // console.log({ newProject });
-
     return newProject;
+  },
+  async updateProject(
+    root,
+    { id, ...updateWith },
+    { user, mongo: { Projects } }
+  ) {
+    const project = await Projects.findOne({
+      _id: ObjectId(id),
+      userId: user.id
+    });
+
+    if (!project) {
+      throw new Error('Project not found!');
+    }
+
+    await Projects.updateOne(project, { $set: updateWith });
+
+    return { ...project, ...updateWith };
   },
 
   // Type

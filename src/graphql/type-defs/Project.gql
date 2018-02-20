@@ -19,4 +19,5 @@ extend type Query {
 extend type Mutation {
   # createProject(title: String!, r: Int, g: Int, b: Int): Project
   createProject(title: String!, color: String): Project
+  updateProject(id: ID!, title: String, color: String): Project
 }

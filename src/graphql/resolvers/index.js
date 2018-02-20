@@ -6,7 +6,12 @@ const {
   // authMiddleware
 } = require('./auth');
 const { allUsers, createUser, setCubeId, User } = require('./users');
-const { allProjects, createProject, Project } = require('./projects');
+const {
+  allProjects,
+  createProject,
+  updateProject,
+  Project
+} = require('./projects');
 const { currentTimeEntry, toggle, TimeEntry } = require('./timeEntries');
 
 module.exports = {
@@ -22,6 +27,7 @@ module.exports = {
     createUser, // admin
     refreshToken: userMiddleware(refreshToken),
     createProject: userMiddleware(createProject),
+    updateProject: userMiddleware(updateProject),
     setCubeId: userMiddleware(setCubeId),
     toggle: userMiddleware(toggle)
   },
