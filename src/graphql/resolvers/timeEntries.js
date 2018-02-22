@@ -15,7 +15,7 @@ module.exports = {
   },
 
   // Mutations
-  async toggle(root, { projectId, userId }, { mongo: { TimeEntries } }) {
+  async toggle(root, { projectId }, { user, mongo: { TimeEntries } }) {
     const timeEntries = await TimeEntries.find({ projectId }).toArray();
 
     const lastTimeEntry = last(timeEntries);
@@ -31,7 +31,8 @@ module.exports = {
         endTime
       });
     }
-    const timeEntry = { projectId, userId, startTime: Date.now() };
+
+    const timeEntry = { projectId, userId: user.id, startTime: Date.now() };
 
     const { insertedIds } = await TimeEntries.insert(timeEntry);
 

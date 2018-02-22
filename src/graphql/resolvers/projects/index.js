@@ -6,8 +6,6 @@ module.exports = {
   async allProjects(root, data, { user, mongo: { Projects } }) {
     const projects = await Projects.find({ userId: user.id }).toArray();
 
-    console.log({ projects, userId: user.id, user });
-
     return projects;
   },
 
