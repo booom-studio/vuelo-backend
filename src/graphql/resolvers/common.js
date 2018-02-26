@@ -1,6 +1,6 @@
-const colors = require('./colors');
+const config = require('config');
 
 module.exports = {
   // Queries
-  colors: () => JSON.stringify(colors)
+  colors: () => JSON.stringify(config.get('colors'))
 };

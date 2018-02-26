@@ -1,8 +1,11 @@
-const { last } = require('lodash');
+const config = require('config');
 
 const Color = require('color');
 
+const { last } = require('lodash');
 const { ObjectId } = require('mongodb');
+
+const colors = config.get('colors');
 
 module.exports = mongo => async ctx => {
   const { Users, Projects, TimeEntries } = mongo;
@@ -25,7 +28,7 @@ module.exports = mongo => async ctx => {
       _id: ObjectId(lastTimeEntry.projectId)
     });
 
-    const color = Color(project.color);
+    const color = Color(colors[project.color].base);
 
     ctx.body = JSON.stringify({ ...color.object(), success: true }, null, 2);
     return;

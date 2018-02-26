@@ -1,7 +1,6 @@
+const config = require('config');
 const { ObjectId } = require('mongodb');
 const { first, sample } = require('lodash');
-
-const colors = require('./colors');
 
 module.exports = {
   // Queries
@@ -13,7 +12,7 @@ module.exports = {
 
   // Mutations
   async createProject(root, { title }, { user, mongo: { Projects } }) {
-    const color = sample(Object.keys(colors));
+    const color = sample(Object.keys(config.get('colors')));
 
     const project = {
       title,
