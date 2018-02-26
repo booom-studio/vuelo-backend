@@ -14,6 +14,8 @@ module.exports = mongo => async ctx => {
     throw new Error('User not found');
   }
 
+  await Users.updateOne(user, { $set: { lastCubeUpdate: Date.now() } });
+
   const lastTimeEntry = last(
     await TimeEntries.find({ userId: ObjectId(user._id) }).toArray()
   );

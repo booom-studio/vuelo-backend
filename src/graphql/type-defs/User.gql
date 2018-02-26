@@ -12,10 +12,12 @@ type User {
   # role: Role!
   # projects: [Project!]
   cubeId: String
+  lastCubeUpdate: Float
 }
 
 extend type Query {
   allUsers: [User!]!
+  cubeInfo: CubeInfoPayload
 }
 
 type Mutation {
@@ -29,4 +31,9 @@ type Mutation {
 type SigninPayload {
   token: String
   user: User
+}
+
+type CubeInfoPayload {
+  status: String
+  cubeId: String
 }

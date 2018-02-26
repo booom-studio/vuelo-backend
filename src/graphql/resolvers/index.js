@@ -5,7 +5,7 @@ const {
   userMiddleware
   // authMiddleware
 } = require('./auth');
-const { allUsers, createUser, setCubeId, User } = require('./users');
+const { allUsers, cubeInfo, createUser, setCubeId, User } = require('./users');
 const {
   allProjects,
   createProject,
@@ -19,6 +19,7 @@ const { colors } = require('./common');
 module.exports = {
   Query: {
     allUsers,
+    cubeInfo: userMiddleware(cubeInfo),
     allProjects: userMiddleware(allProjects),
     currentTimeEntry: userMiddleware(currentTimeEntry),
     colors
