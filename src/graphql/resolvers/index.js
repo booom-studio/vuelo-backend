@@ -14,11 +14,14 @@ const {
 } = require('./projects');
 const { currentTimeEntry, toggle, TimeEntry } = require('./timeEntries');
 
+const { colors } = require('./common');
+
 module.exports = {
   Query: {
     allUsers,
     allProjects: userMiddleware(allProjects),
-    currentTimeEntry: userMiddleware(currentTimeEntry)
+    currentTimeEntry: userMiddleware(currentTimeEntry),
+    colors
     // adminStuff: authMiddleware({ role: 'ADMIN' }, allProjects)
   },
   Mutation: {

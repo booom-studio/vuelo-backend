@@ -35,7 +35,7 @@ module.exports = {
 
     await Projects.insert({
       title: 'My first Project',
-      color: '#ccff90',
+      color: 'deepPurple',
       userId: id
     });
 

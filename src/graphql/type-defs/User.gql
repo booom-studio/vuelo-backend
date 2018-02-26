@@ -14,7 +14,7 @@ type User {
   cubeId: String
 }
 
-type Query {
+extend type Query {
   allUsers: [User!]!
 }
 

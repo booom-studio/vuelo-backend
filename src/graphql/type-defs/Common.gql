@@ -1,0 +1,8 @@
+type X {
+  y: String
+}
+
+type Query {
+  # This is stupid, I know
+  colors: String
+}
