@@ -11,7 +11,8 @@
     "watch": "nodemon src/server.js -e js,json,gql",
     "linter": "eslint *.js",
     "test": "npm run linter",
-    "mongodb": "mkdir -p mongo/dev; mongod --dbpath=./mongo/dev"
+    "mongodb": "mkdir -p mongo/dev; mongod --dbpath=./mongo/dev",
+    "db:seed": "node scripts/database-seed"
   },
   "repository": {
     "type": "git",

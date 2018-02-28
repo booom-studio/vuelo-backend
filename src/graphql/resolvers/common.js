@@ -2,5 +2,11 @@ const config = require('config');
 
 module.exports = {
   // Queries
-  colors: () => JSON.stringify(config.get('colors'))
+  async colors(root, data, { mongo: { Config } }) {
+    const { colors } = await Config.findOne({
+      key: config.get('colorsConfigKey')
+    });
+
+    return JSON.stringify(colors);
+  }
 };

@@ -5,11 +5,13 @@ const Color = require('color');
 const { last } = require('lodash');
 const { ObjectId } = require('mongodb');
 
-const colors = config.get('colors');
-
 module.exports = mongo => async ctx => {
-  const { Users, Projects, TimeEntries } = mongo;
+  const { Users, Projects, TimeEntries, Config } = mongo;
   const { params: { cubeId } } = ctx;
+
+  const { colors } = await Config.findOne({
+    key: config.get('colorsConfigKey')
+  });
 
   const user = await Users.findOne({ cubeId });
 
@@ -28,7 +30,7 @@ module.exports = mongo => async ctx => {
       _id: ObjectId(lastTimeEntry.projectId)
     });
 
-    const color = Color(colors[project.color].base);
+    const color = Color(colors[project.color].dark);
 
     ctx.body = JSON.stringify({ ...color.object(), success: true }, null, 2);
     return;

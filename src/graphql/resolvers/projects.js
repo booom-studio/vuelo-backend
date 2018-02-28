@@ -11,8 +11,11 @@ module.exports = {
   },
 
   // Mutations
-  async createProject(root, { title }, { user, mongo: { Projects } }) {
-    const color = sample(Object.keys(config.get('colors')));
+  async createProject(root, { title }, { user, mongo: { Projects, Config } }) {
+    const { colors } = await Config.findOne({
+      key: config.get('colorsConfigKey')
+    });
+    const color = sample(Object.keys(colors));
 
     const project = {
       title,
